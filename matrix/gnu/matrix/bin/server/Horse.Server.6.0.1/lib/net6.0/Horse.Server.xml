@@ -1,0 +1,600 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Horse.Server</name>
+    </assembly>
+    <members>
+        <member name="T:Horse.Server.ConnectionHandler">
+            <summary>
+            Accept TCP connections
+            </summary>
+        </member>
+        <member name="F:Horse.Server.ConnectionHandler._server">
+            <summary>
+            Horse server of connection handler
+            </summary>
+        </member>
+        <member name="F:Horse.Server.ConnectionHandler._listener">
+            <summary>
+            Host listener object of connection handler
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ConnectionHandler.#ctor(Horse.Server.HorseServer,Horse.Server.HostListener)">
+            <summary>
+            Creates new connection handler for listening specified port
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ConnectionHandler.Handle">
+            <summary>
+            Accepts new connection requests until stopped
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ConnectionHandler.AcceptClient(System.Net.Sockets.TcpClient)">
+            <summary>
+            After the client connection request is accepted.
+            Completes first operations for the client
+            such as firewall authority, SSL authentication, WebSocket handshaking
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ConnectionHandler.Dispose">
+            <summary>
+            Disposes connection handler and releases all resources
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ConnectionHandler.GetProtocol(Horse.Server.HostListener)">
+            <summary>
+            Finds supported SSL protocol from server options
+            </summary>
+        </member>
+        <member name="T:Horse.Server.ConnectionInfo">
+            <summary>
+            After handshaking completed the state object will be passed to the callback function.
+            In Horse SSL Handshaking this object type is HandshakeState class
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.Client">
+            <summary>
+            TCP Client of the connection
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.IsSsl">
+            <summary>
+            True, if connection is SSL connection
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.SslStream">
+            <summary>
+            If the handshaking is a real SSL, the stream will be SslStream.
+            If not, this value will be null
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.PlainStream">
+            <summary>
+            If there is no real or fake SSL handkshaking plain stream is used.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.Timeout">
+            <summary>
+            The time the connection dispose if operation can't complete
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.MaxAlive">
+            <summary>
+            The max alive time for HTTP Requests
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.State">
+            <summary>
+            If true, request read and proceed successfuly.
+            If false, timeout timer is waiting for the process.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.Server">
+            <summary>
+            Host listener object of the connection
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.Protocol">
+            <summary>
+            Current data transfer protocol of the active connection
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ConnectionInfo.Socket">
+            <summary>
+            Socket object of the connection info
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ConnectionInfo.GetStream">
+            <summary>
+            Returns the using network stream
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Horse.Server.ConnectionInfo.Close">
+            <summary>
+            Closes and disposes all resources of the request
+            </summary>
+        </member>
+        <member name="T:Horse.Server.Containers.ClientContainer">
+            <summary>
+            Default client container for HttpServer
+            </summary>
+        </member>
+        <member name="P:Horse.Server.Containers.ClientContainer.Clients">
+            <summary>
+            Online clients
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.ClientContainer.#ctor">
+            <summary>
+            Creates new client container
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.ClientContainer.Add(Horse.Core.SocketBase)">
+            <summary>
+            Adds the client to the online clients container
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.ClientContainer.Count">
+            <summary>
+            Gets online client count
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.ClientContainer.List">
+            <summary>
+            Gets all online clients
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.ClientContainer.Remove(Horse.Core.SocketBase)">
+            <summary>
+            Removes the client from the online clients container
+            </summary>
+        </member>
+        <member name="T:Horse.Server.Containers.IClientContainer">
+            <summary>
+            WebSocket Client container implementation of the HttpServer class
+            Contains online clients.
+            HttpServer automatically adds the client to the container when it's connected
+            And removes the client from the container when it's disconnected
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.IClientContainer.Count">
+            <summary>
+            Gets online client count
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.IClientContainer.Add(Horse.Core.SocketBase)">
+            <summary>
+            Adds the client to the online clients container
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.IClientContainer.Remove(Horse.Core.SocketBase)">
+            <summary>
+            Removes the client from the online clients container
+            </summary>
+        </member>
+        <member name="M:Horse.Server.Containers.IClientContainer.List">
+            <summary>
+            Gets all online clients
+            </summary>
+        </member>
+        <member name="T:Horse.Server.HeartbeatManager">
+            <summary>
+            Manages ping and pong messages for connected piped clients
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HeartbeatManager._clients">
+            <summary>
+            Connected piped clients
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HeartbeatManager._incoming">
+            <summary>
+            Newly connected piped clients
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HeartbeatManager._outgoing">
+            <summary>
+            Disconnected clients that they are not removed from the container yet
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HeartbeatManager._timer">
+            <summary>
+            Pinger timer
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HeartbeatManager._interval">
+            <summary>
+            Ping time interval
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.Start">
+            <summary>
+            Starts to ping connected clients
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.Stop">
+            <summary>
+            Stops ping / pong operation and releases all resources
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.Add(Horse.Core.SocketBase)">
+            <summary>
+            Add new client to pinger
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.Remove(Horse.Core.SocketBase)">
+            <summary>
+            Remove a client from pinger
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.Tick">
+            <summary>
+            Adds newly connected clients, ping connected clients and removes disconnected clients
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.AddIncomingSockets">
+            <summary>
+            Adds newly connected clients to client container
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.PingClients">
+            <summary>
+            Sends ping message to connected clients.
+            If clients are disconnected and did not respose previous ping message, they are moved to removing list.
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HeartbeatManager.RemoveOutgoingSockets">
+            <summary>
+            Removes clients which are added removing list.
+            </summary>
+        </member>
+        <member name="T:Horse.Server.HorseInnerExceptionHandler">
+            <summary>
+            Crated for catching horse inner exceptions with events in HorseServer
+            </summary>
+        </member>
+        <member name="T:Horse.Server.HorseServer">
+            <summary>
+            Horse TCP Server
+            Listens all TCP Connections and routes to requests protocols
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HorseServer.HeartbeatManager">
+            <summary>
+            Pinger for piped clients that connect and stay alive for a long time
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HorseServer.Logger">
+            <summary>
+            Logger class for Server operations.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HorseServer.Options">
+            <summary>
+            Server options. Can set programmatically with constructor parameter
+            Or can set with "rimserver.json", "server.json" or "rim.json" options filename
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HorseServer.IsRunning">
+            <summary>
+            Server status, If true, server is listening for new connections
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HorseServer.Protocols">
+            <summary>
+            Server's supported protocols
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HorseServer._timeTimer">
+            <summary>
+            Server time timer
+            </summary>
+        </member>
+        <member name="F:Horse.Server.HorseServer._handlers">
+            <summary>
+            TcpListener for HttpServer
+            </summary>
+        </member>
+        <member name="E:Horse.Server.HorseServer.OnInnerException">
+            <summary>
+            Triggered when inner exception is raised in horse server
+            </summary>
+        </member>
+        <member name="E:Horse.Server.HorseServer.OnStarted">
+            <summary>
+            Triggered when the server is started
+            </summary>
+        </member>
+        <member name="E:Horse.Server.HorseServer.OnStopped">
+            <summary>
+            Triggered when the server is stopped
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.#ctor">
+            <summary>
+            Creates new HorseServer instance.
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.#ctor(System.String)">
+            <summary>
+            Creates new HorseServer instance.
+            </summary>
+            <param name="optionsFilename">Server options</param>
+        </member>
+        <member name="M:Horse.Server.HorseServer.#ctor(Horse.Server.ServerOptions)">
+            <summary>
+            Creates new HorseServer instance.
+            </summary>
+            <param name="options">Server options</param>
+        </member>
+        <member name="M:Horse.Server.HorseServer.BlockWhileRunning">
+            <summary>
+            Block main thread, typical thread sleep
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.BlockWhileRunningAsync">
+            <summary>
+            Block main thread, typical task delay
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.Run">
+            <summary>
+            Starts server on a specific port and waits until it stops
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.Run(System.Int32)">
+            <summary>
+            Starts server and waits until it stops
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.Start(System.Int32)">
+            <summary>
+            Starts server and listens specified port without ssl
+            </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:Horse.Server.HorseServer.Start">
+            <summary>
+            Starts server and listens new connection requests
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.Stop">
+            <summary>
+            Stops accepting connections.
+            But does not disconnect connected clients.
+            In order to disconnect all clients, you need to do it manually
+            You can use a ClientContainer implementation to do it easily
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.UseProtocol(Horse.Core.Protocols.IHorseProtocol)">
+            <summary>
+            Uses the protocol for new TCP connections that request the protocol
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.SwitchProtocol(Horse.Core.IConnectionInfo,System.String,Horse.Core.ConnectionData)">
+            <summary>
+            Switches client's protocol to new protocol (finds by name)
+            </summary>
+        </member>
+        <member name="M:Horse.Server.HorseServer.FindProtocol(System.String)">
+            <summary>
+            Finds protocol by name
+            </summary>
+        </member>
+        <member name="T:Horse.Server.HostListener">
+            <summary>
+            Listener object model for TCP port listening operation 
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostListener.Listener">
+            <summary>
+            Port listener object of the host
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostListener.Handle">
+            <summary>
+            TCP connection accepting thread
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostListener.Certificate">
+            <summary>
+            Certificate for SSL Server listening operations
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostListener.Options">
+            <summary>
+            Host listener options
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostListener.KeepAliveManager">
+            <summary>
+            Request keep alive manager for disposing incompleted connections
+            </summary>
+        </member>
+        <member name="T:Horse.Server.HostOptions">
+            <summary>
+            Options for each host
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.Port">
+            <summary>
+            Server Listening port number
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.Hostnames">
+            <summary>
+            Accepted hostnames. Set null if all hostnames are accepted.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.SslEnabled">
+            <summary>
+            If true, SSL is enabled and server handshakes with clients
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.SslCertificate">
+            <summary>
+            Certificate filename, if there is no certificate or you need to load the certificate
+            from another source pass null value.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.CertificateKey">
+            <summary>
+            Passphare key for the server side certificate.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.BypassSslValidation">
+            <summary>
+            By passes certificate validation, all certificates are welcome.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.HostOptions.SslProtocol">
+            <summary>
+            SSL Stream Secure Layer protocol.
+            Supported protocols are None, Ssl2, Ssl3, Tls, Tls11, Tls12
+            </summary>
+        </member>
+        <member name="T:Horse.Server.KeepAliveManager">
+            <summary>
+            Connection keeping alive manager.
+            Checks all timeout operations and maximum tcp connection durations
+            </summary>
+        </member>
+        <member name="P:Horse.Server.KeepAliveManager.IsRunning">
+            <summary>
+            If true, keep alive manager and timeout handlers are running
+            </summary>
+        </member>
+        <member name="M:Horse.Server.KeepAliveManager.Start(System.Int32)">
+            <summary>
+            Creates timeout handlers (vCPU x 2 handlers) and runs them
+            </summary>
+        </member>
+        <member name="M:Horse.Server.KeepAliveManager.Stop">
+            <summary>
+            Stops all timeout handlers
+            </summary>
+        </member>
+        <member name="M:Horse.Server.KeepAliveManager.Add(Horse.Server.ConnectionInfo)">
+            <summary>
+            Adds new connection to keep alive manager.
+            This connection's timeout will be set in this method and starts it's timeout span
+            </summary>
+        </member>
+        <member name="T:Horse.Server.ServerOptions">
+            <summary>
+            HttpServer options.
+            This object is loaded from "horse.json" or "server.json" file
+            Or It can be passed as parameter to the HttpServer constructor method
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ServerOptions.PingInterval">
+            <summary>
+            Ping Interval in SECONDS to active websocket connections. Default is 60.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ServerOptions.MaximumPendingConnections">
+            <summary>
+            For TcpListener objects, maximum pending connections waiting for being accepted by the server.
+            If a client behind the maximum pending connections, it will be rejected immediately.
+            Default is 0 (means disabled)
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ServerOptions.Hosts">
+            <summary>
+            Hosts
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ServerOptions.RequestTimeout">
+            <summary>
+            HTTP Request timeout in SECONDS. Default is 30.
+            </summary>
+        </member>
+        <member name="P:Horse.Server.ServerOptions.ContentEncoding">
+            <summary>
+            Preferred content encoding method.
+            br and gzip are supported.
+            </summary>
+        </member>
+        <member name="F:Horse.Server.ServerOptions.OptionsFiles">
+            <summary>
+            Supported options files
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ServerOptions.LoadFromFile(System.String)">
+            <summary>
+            Finds the filename from supported file list.
+            If exists, loads options from file.
+            If not exists, returns default options.
+            </summary>
+        </member>
+        <member name="M:Horse.Server.ServerOptions.CreateDefault">
+            <summary>
+            Creates default server options
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Horse.Server.TimeoutHandler">
+            <summary>
+            Request timeout timer for disposing incompleted connections
+            </summary>
+        </member>
+        <member name="F:Horse.Server.TimeoutHandler._incoming">
+            <summary>
+            newly connected clients. created for optimizing (to not lock real collection)
+            </summary>
+        </member>
+        <member name="F:Horse.Server.TimeoutHandler._connections">
+            <summary>
+            active tcp clients that are checked if they are timed out
+            </summary>
+        </member>
+        <member name="F:Horse.Server.TimeoutHandler._timer">
+            <summary>
+            timeout timer
+            </summary>
+        </member>
+        <member name="F:Horse.Server.TimeoutHandler._timeoutMilliseconds">
+            <summary>
+            clients' timeout total milliseconds
+            </summary>
+        </member>
+        <member name="F:Horse.Server.TimeoutHandler._tickInterval">
+            <summary>
+            timer interval
+            </summary>
+        </member>
+        <member name="M:Horse.Server.TimeoutHandler.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Creates new timeout handler with specified timeout milliseconds and check timer interval
+            </summary>
+        </member>
+        <member name="M:Horse.Server.TimeoutHandler.Start">
+            <summary>
+            Runs the timeout timer process
+            </summary>
+        </member>
+        <member name="M:Horse.Server.TimeoutHandler.Stop">
+            <summary>
+            Stop the time out handler
+            </summary>
+        </member>
+        <member name="M:Horse.Server.TimeoutHandler.Tick">
+            <summary>
+            On every tick, adds new clients to time out handling list
+            Checks the clients if they should be removed due to timeout reason
+            </summary>
+        </member>
+        <member name="M:Horse.Server.TimeoutHandler.AddIncomingItems">
+            <summary>
+            Inserts recently added items to timeout items list
+            </summary>
+        </member>
+        <member name="M:Horse.Server.TimeoutHandler.Add(Horse.Server.ConnectionInfo)">
+            <summary>
+            Adds new connection to the list.
+            This connection's timeout will be set in this method and starts it's timeout span
+            </summary>
+        </member>
+    </members>
+</doc>

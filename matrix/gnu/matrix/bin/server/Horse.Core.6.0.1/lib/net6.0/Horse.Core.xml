@@ -1,0 +1,697 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Horse.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Horse.Core.ClientMessageHandler`1">
+            <summary>
+            Function definition for client message received event
+            </summary>
+        </member>
+        <member name="T:Horse.Core.ClientSocketBase`1">
+            <summary>
+            Client socket base for horse clients
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ClientSocketBase`1.PingInterval">
+            <summary>
+            Maximum time to wait response message
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ClientSocketBase`1.Certificate">
+            <summary>
+            Client certificate for SSL client connections.
+            If null, Horse uses default certificate.
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ClientSocketBase`1.Data">
+            <summary>
+            Connection data, path, method, properties (if http used directly or indirectly, properties may be header key/values)
+            </summary>
+        </member>
+        <member name="E:Horse.Core.ClientSocketBase`1.MessageReceived">
+            <summary>
+            Triggered when a message is received from the network stream
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ClientSocketBase`1._pingTimer">
+            <summary>
+            If client is working on passive mode,
+            we will need to send ping messages to recognize if it's disconnected or just server is not sending messages
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.CreatePingTimer">
+            <summary>
+            Creates new ping timer
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.DestroyPingTimer">
+            <summary>
+            Destroyes ping timer and releases all sources
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.OnConnected">
+            <summary>
+            Completes client base connected operations
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.Connect(System.String)">
+            <summary>
+            Connects to specified url.
+            Url can be like;
+            ws://10.20.30.40
+            wss://10.20.30.40/path
+            hmqs://domain.com
+            hmq://domain.com:154/path
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.ConnectAsync(System.String)">
+            <summary>
+            Connects to specified url.
+            Url can be like;
+            ws://10.20.30.40
+            wss://10.20.30.40/path
+            hmqs://domain.com
+            hmq://domain.com:154/path
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.Connect(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Connects to an IP address on specified port.
+            If secure is true, connects with SSL
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.ConnectAsync(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Connects to an IP address on specified port.
+            If secure is true, connects with SSL
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.Connect(Horse.Core.DnsInfo)">
+            <summary>
+            Connects to the server
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.ConnectAsync(Horse.Core.DnsInfo)">
+            <summary>
+            Connects to the server
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.Read">
+            <summary>
+            Starts to read from the TCP socket
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.CertificateCallback(System.Object,System.Security.Cryptography.X509Certificates.X509Certificate,System.Security.Cryptography.X509Certificates.X509Chain,System.Net.Security.SslPolicyErrors)">
+            <summary>
+            certificate invocation always true method
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ClientSocketBase`1.SetOnMessageReceived(`0)">
+            <summary>
+            If message received event should be triggered to derived classes, this method can be used.
+            </summary>
+        </member>
+        <member name="T:Horse.Core.ConnectionData">
+            <summary>
+            Data for the connection
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ConnectionData.Path">
+            <summary>
+            Connection request path or another data like this
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ConnectionData.Method">
+            <summary>
+            Connection request method or another data like this
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ConnectionData.Properties">
+            <summary>
+            Connection key value properties (if HTTP, header key and values)
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ConnectionData.SetProperties(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            dictionary definition with StringComparer.InvariantCultureIgnoreCase !HIGHLY RECOMMENDED!
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ConnectionData.ReadFromStream(System.IO.Stream)">
+            <summary>
+            Reads values from stream
+            </summary>
+        </member>
+        <member name="T:Horse.Core.ContentTypes">
+            <summary>
+            HTTP Content types
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.TEXT_HTML">
+            <summary>
+            "text/html"
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.TEXT_XML">
+            <summary>
+            "text/xml"
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.PLAIN_TEXT">
+            <summary>
+            "text/plain"
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.APPLICATION_XML">
+            <summary>
+            "application/xml"
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.APPLICATION_JSON">
+            <summary>
+            "application/json"
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.OCTET_STREAM">
+            <summary>
+            "application/octet-stream"
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ContentTypes.FORM_URLENCODED">
+            <summary>
+            "application/x-www-form-urlencoded"
+            </summary>
+        </member>
+        <member name="T:Horse.Core.Protocol">
+            <summary>
+            Protocol information for DnsInfo class
+            </summary>
+        </member>
+        <member name="F:Horse.Core.Protocol.Unknown">
+            <summary>
+            Unrecognized protocol
+            </summary>
+        </member>
+        <member name="F:Horse.Core.Protocol.Http">
+            <summary>
+            http:// or https://
+            </summary>
+        </member>
+        <member name="F:Horse.Core.Protocol.WebSocket">
+            <summary>
+            ws:// or wss://
+            </summary>
+        </member>
+        <member name="F:Horse.Core.Protocol.Hmq">
+            <summary>
+            hmq:// or hmqs://
+            </summary>
+        </member>
+        <member name="T:Horse.Core.DnsInfo">
+            <summary>
+            All information created from a URL
+            </summary>
+        </member>
+        <member name="P:Horse.Core.DnsInfo.IPAddress">
+            <summary>
+            IP Address
+            </summary>
+        </member>
+        <member name="P:Horse.Core.DnsInfo.Hostname">
+            <summary>
+            Hostname (usually domain name or url)
+            </summary>
+        </member>
+        <member name="P:Horse.Core.DnsInfo.SSL">
+            <summary>
+            If URL starts with https or wss,
+            or if the remote port is 443, this property will set true
+            </summary>
+        </member>
+        <member name="P:Horse.Core.DnsInfo.Port">
+            <summary>
+            Remote port.
+            If an IP address specified after domain (like a.com:82) the value is the specified port.
+            Otherwise, if SSL true this value will set 443, if not 80
+            </summary>
+        </member>
+        <member name="P:Horse.Core.DnsInfo.Path">
+            <summary>
+            Path after protocol, domain and port information.
+            Usually starts with "/"
+            </summary>
+        </member>
+        <member name="P:Horse.Core.DnsInfo.Protocol">
+            <summary>
+            Protocol type
+            </summary>
+        </member>
+        <member name="T:Horse.Core.DnsResolver">
+            <summary>
+            Resolves DNS informations for Http Requests.
+            Usually used by clients (by ClientSocket or classes derived from ClientSocket)
+            </summary>
+        </member>
+        <member name="M:Horse.Core.DnsResolver.Resolve(System.String)">
+            <summary>
+            Resolves DnsInfo class from and url
+            </summary>
+        </member>
+        <member name="T:Horse.Core.ConnectionStates">
+            <summary>
+            States for each request.
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ConnectionStates.Pending">
+            <summary>
+            Request still handling.
+            Server has no information what the request for.
+            HTTP, WebSocket or something different.
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ConnectionStates.Closed">
+            <summary>
+            Connection is completed.
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ConnectionStates.Pipe">
+            <summary>
+            Connection is accepted as a pipe protocol such as websocket, HMQ, AMQP, MQTT. It's still alive and will.
+            </summary>
+        </member>
+        <member name="F:Horse.Core.ConnectionStates.Http">
+            <summary>
+            Connection is accepted and first response is sent.
+            Keeping alive and waiting next HTTP requests via same TCP connection.
+            </summary>
+        </member>
+        <member name="T:Horse.Core.IConnectionInfo">
+            <summary>
+            Connection information for a TCP Client
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IConnectionInfo.Client">
+            <summary>
+            TCP Client of the connection
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IConnectionInfo.IsSsl">
+            <summary>
+            True, if connection is SSL connection
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IConnectionInfo.State">
+            <summary>
+            If true, request read and proceed successfuly.
+            If false, timeout timer is waiting for the process.
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IConnectionInfo.Protocol">
+            <summary>
+            Current data transfer protocol of the active connection
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IConnectionInfo.Socket">
+            <summary>
+            Socket object of the connection
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IConnectionInfo.Close">
+            <summary>
+            Closes connection and releases all sources
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IConnectionInfo.GetStream">
+            <summary>
+            Gets the network stream
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Horse.Core.IHeartbeatManager">
+            <summary>
+            Manages ping and pong messages for connected piped clients
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHeartbeatManager.Add(Horse.Core.SocketBase)">
+            <summary>
+            Add new client to pinger
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHeartbeatManager.Remove(Horse.Core.SocketBase)">
+            <summary>
+            Remove a client from pinger
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHeartbeatManager.Start">
+            <summary>
+            Starts to ping connected clients
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHeartbeatManager.Stop">
+            <summary>
+            Stops ping / pong operation and releases all resources
+            </summary>
+        </member>
+        <member name="T:Horse.Core.IHorseServer">
+            <summary>
+            Horse TCP Server implementation
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IHorseServer.Logger">
+            <summary>
+            Logger class for Server operations.
+            </summary>
+        </member>
+        <member name="P:Horse.Core.IHorseServer.HeartbeatManager">
+            <summary>
+            Pinger for piped clients that connect and stay alive for a long time
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHorseServer.UseProtocol(Horse.Core.Protocols.IHorseProtocol)">
+            <summary>
+            Uses the protocol for new TCP connections that request the protocol
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHorseServer.SwitchProtocol(Horse.Core.IConnectionInfo,System.String,Horse.Core.ConnectionData)">
+            <summary>
+            Switches client's protocol to new protocol (finds by name)
+            </summary>
+        </member>
+        <member name="M:Horse.Core.IHorseServer.FindProtocol(System.String)">
+            <summary>
+            Finds protocol by name
+            </summary>
+        </member>
+        <member name="T:Horse.Core.ILogger">
+            <summary>
+            Error Logging implementation for HttpServer, ClientSocket, ServerSocket, Firewall, ClientContainer and HttpRequestHandler objects
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ILogger.LogException(System.String,System.Exception)">
+            <summary>
+            Logs the error
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ILogger.LogEvent(System.String,System.String)">
+            <summary>
+            Logs an event
+            </summary>
+        </member>
+        <member name="T:Horse.Core.Protocols.IHorseProtocol">
+            <summary>
+            Horse Protocol implementation
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.IHorseProtocol.Name">
+            <summary>
+            Name of the protocol.
+            Used for switching protocols. The name should be same value with "Upgrade" HTTP header value.
+            </summary>
+        </member>
+        <member name="M:Horse.Core.Protocols.IHorseProtocol.Handshake(Horse.Core.IConnectionInfo,System.Byte[])">
+            <summary>
+            Checks if data is belong this protocol.
+            </summary>
+            <param name="info">Connection information</param>
+            <param name="data">Data is first 8 bytes of the first received message from the client</param>
+            <returns></returns>
+        </member>
+        <member name="M:Horse.Core.Protocols.IHorseProtocol.SwitchTo(Horse.Core.IConnectionInfo,Horse.Core.ConnectionData)">
+            <summary>
+            When protocol is switched to this protocol from another protocol
+            </summary>
+        </member>
+        <member name="M:Horse.Core.Protocols.IHorseProtocol.HandleConnection(Horse.Core.IConnectionInfo,Horse.Core.Protocols.ProtocolHandshakeResult)">
+            <summary>
+            After protocol handshake is completed, this method is called to handle events for the specified client
+            </summary>
+        </member>
+        <member name="T:Horse.Core.Protocols.IProtocolConnectionHandler`2">
+            <summary>
+            Horse Protocol Connection handler implementation
+            </summary>
+        </member>
+        <member name="M:Horse.Core.Protocols.IProtocolConnectionHandler`2.Connected(Horse.Core.IHorseServer,Horse.Core.IConnectionInfo,Horse.Core.ConnectionData)">
+            <summary>
+            Triggered when a piped client is connected. 
+            </summary>
+        </member>
+        <member name="M:Horse.Core.Protocols.IProtocolConnectionHandler`2.Ready(Horse.Core.IHorseServer,`0)">
+            <summary>
+            Triggered when handshake is completed and the connection is ready to communicate 
+            </summary>
+        </member>
+        <member name="M:Horse.Core.Protocols.IProtocolConnectionHandler`2.Received(Horse.Core.IHorseServer,Horse.Core.IConnectionInfo,`0,`1)">
+            <summary>
+            Triggered when a client sends a message to the server 
+            </summary>
+        </member>
+        <member name="M:Horse.Core.Protocols.IProtocolConnectionHandler`2.Disconnected(Horse.Core.IHorseServer,`0)">
+            <summary>
+            Triggered when a piped client is disconnected. 
+            </summary>
+        </member>
+        <member name="T:Horse.Core.Protocols.ProtocolHandshakeResult">
+            <summary>
+            Protocol handshaking result
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.ProtocolHandshakeResult.Accepted">
+            <summary>
+            If true, server accepted the requested protocol
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.ProtocolHandshakeResult.ReadAfter">
+            <summary>
+            When protocol has no protocol recognizing message, protocol must be recognized from first message.
+            But if we read some part of first message, package reader should be notified.
+            If this value is true, it means, we read some part of first message. Read part is in PreviouslyRead array.
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.ProtocolHandshakeResult.PipeConnection">
+            <summary>
+            If true, connection will be kept alive and handler's connected method will be called to create new socket instance.
+            If false, client connection handlers will not be called.
+            An example, HTTP protocol is not piped but HMQ and WebSocket connections are piped
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.ProtocolHandshakeResult.PreviouslyRead">
+            <summary>
+            First 8 bytes of first received data from the connection 
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.ProtocolHandshakeResult.Response">
+            <summary>
+            If protocol handshaking required a message from server to client, this value contains the message
+            </summary>
+        </member>
+        <member name="P:Horse.Core.Protocols.ProtocolHandshakeResult.Socket">
+            <summary>
+            Connection socket
+            </summary>
+        </member>
+        <member name="T:Horse.Core.SocketStatusHandler">
+            <summary>
+            Function definition for parameterless web sockets
+            </summary>
+        </member>
+        <member name="T:Horse.Core.SocketBase">
+            <summary>
+            Base class for web socket clients.
+            Server-side client and Client-side client classes are derived from this class
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.Client">
+            <summary>
+            TcpClient class of the socket class
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.Stream">
+            <summary>
+            TcpClient network stream (with SSL or without SSL, depends on the requested URL or server certificate)
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.IsConnected">
+            <summary>
+            Client's connected status
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.IsSsl">
+            <summary>
+            Gets the connection is over SSL or not
+            </summary>
+        </member>
+        <member name="F:Horse.Core.SocketBase._disconnectedWarn">
+            <summary>
+            When client is disconnected and disposed,
+            The message will be sent to all event subscribers.
+            Sometimes multiple errors occur when the connection is failed.
+            To avoid multiple event fires, this field is used.
+            </summary>
+        </member>
+        <member name="F:Horse.Core.SocketBase._ss">
+            <summary>
+            SslStream does not support concurrent write operations.
+            This semaphore is used to handle that issue
+            </summary>
+        </member>
+        <member name="E:Horse.Core.SocketBase.Connected">
+            <summary>
+            Triggered when the client is connected
+            </summary>
+        </member>
+        <member name="E:Horse.Core.SocketBase.Disconnected">
+            <summary>
+            Triggered when the client is disconnected
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.LastAliveDate">
+            <summary>
+            Last message received or sent date.
+            Used for preventing unnecessary ping/pong traffic
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.PongRequired">
+            <summary>
+            True, If a pong must received asap
+            </summary>
+        </member>
+        <member name="P:Horse.Core.SocketBase.SmartHealthCheck">
+            <summary>
+            When true, If socket sends or receives messages in last ping interval duration, sending PING messages is discarded.
+            When false, PING messages are sent always.
+            Default value is true.
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.#ctor">
+            <summary>
+            Socket base constructor for client sockets
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.#ctor(Horse.Core.IConnectionInfo)">
+            <summary>
+            Socket base constructor for server sockets
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.EndWrite(System.IAsyncResult)">
+            <summary>
+            Ends write operation and completed callback
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.SendAsync(System.Byte[])">
+            <summary>
+            Sends byte array message to the socket client.
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.Send(System.Byte[])">
+            <summary>
+            Sends byte array message to the socket client.
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.KeepAlive">
+            <summary>
+            Updates socket alive date
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.ReleaseSslLock">
+            <summary>
+            Releases ssl semaphore 
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.Disconnect">
+            <summary>
+            Disconnects client and disposes all streams belongs it
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.OnConnected">
+            <summary>
+            Triggered when client is connected
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.OnDisconnected">
+            <summary>
+            Triggered when client is disconnected
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.OnProtocolSwitched(Horse.Core.Protocols.IHorseProtocol,Horse.Core.Protocols.IHorseProtocol)">
+            <summary>
+            Called when client's protocol has switched
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.SetOnConnected">
+            <summary>
+            Triggers virtual connected method
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.SetOnProtocolSwitched(Horse.Core.Protocols.IHorseProtocol,Horse.Core.Protocols.IHorseProtocol)">
+            <summary>
+            Triggers virtual protocol switched
+            </summary>
+        </member>
+        <member name="M:Horse.Core.SocketBase.Ping">
+            <summary>
+            Sends ping
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Horse.Core.SocketBase.Pong(System.Object)">
+            <summary>
+            Sends pong
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Horse.Core.TimerExceptionHandler">
+            <summary>
+            Thread timer exception handler
+            </summary>
+        </member>
+        <member name="T:Horse.Core.ThreadTimer">
+            <summary>
+            Thread based timer
+            </summary>
+        </member>
+        <member name="E:Horse.Core.ThreadTimer.OnException">
+            <summary>
+            Triggered when an exception is thrown inside of timer elapse
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ThreadTimer.WaitTickCompletion">
+            <summary>
+            If true, next tick waits previous if it's execution time is longer than interval duration.
+            Default is true
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ThreadTimer.IsRunning">
+            <summary>
+            True, if timer is running
+            </summary>
+        </member>
+        <member name="P:Horse.Core.ThreadTimer.Interval">
+            <summary>
+            Timer elapse interval
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ThreadTimer.#ctor(System.Action,System.TimeSpan)">
+            <summary>
+            Created new thread-based timer
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ThreadTimer.Start(System.Threading.ThreadPriority)">
+            <summary>
+            Starts the timer
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if timer is already started</exception>
+        </member>
+        <member name="M:Horse.Core.ThreadTimer.Stop">
+            <summary>
+            Stop the timer and disposes all sources
+            </summary>
+        </member>
+        <member name="M:Horse.Core.ThreadTimer.Execute">
+            <summary>
+            Executes action in safe and triggers exception event, if an exception is thrown
+            </summary>
+        </member>
+    </members>
+</doc>
